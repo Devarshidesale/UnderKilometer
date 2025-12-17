@@ -89,9 +89,9 @@
     />
   </head>
   <body>
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     <div>
-      <link href="./index.css" rel="stylesheet" />
+      <link href="{{ url_for('static', filename='index.css') }}" rel="stylesheet" />
 
       <div class="desktop-container1">
         <div class="desktop-thq-desktop-elm">
@@ -118,7 +118,7 @@
             </div>
           </div>
           <div class="desktop-thq-main-elm1">
-            <img class="desktop-thq-hero-elm" src="/CEP/assets/download_bg.png"></img>
+            <img class="desktop-thq-hero-elm" src="{{ url_for('static', filename='assets/download_bg.png') }}"></img>
             <div class="desktop-thq-main-elm2">
               <div class="desktop-thq-introsection-elm">
                 <div class="desktop-thq-content-elm">
@@ -172,63 +172,10 @@
               </div>
               <div class="accomodation-card-section">
                 <!-- card --> 
-                <div class="container">
-                  <div class="box">
-                    <span class="title">XYZ hostel</span>
-                    <div>
-                      <strong>$88</strong>
-                      <p>800m </p>
-                      <span>student contact</span> <span>9898989898</span>
-                      <!-- From Uiverse.io by adamgiebl --> 
-                    </div>
-                    <button class="cssbuttons-io-button">
-                      View Details
-                      <div class="icon">
-                        <svg
-                          height="24"
-                          width="24"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M0 0h24v24H0z" fill="none"></path>
-                          <path
-                            d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
-                            fill="currentColor"
-                          ></path>
-                        </svg>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-                <div class="container">
-                  <div class="box">
-                    <span class="title">ABC residency</span>
-                    <div>
-                      <strong>$92</strong>
-                      <p>1200m </p>
-                      <span>student contact</span> <span>9795745875</span>
-                      <!-- From Uiverse.io by adamgiebl --> 
-                    </div>
-                    <button class="cssbuttons-io-button">
-                      View Details
-                      <div class="icon">
-                        <svg
-                          height="24"
-                          width="24"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M0 0h24v24H0z" fill="none"></path>
-                          <path
-                            d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
-                            fill="currentColor"
-                          ></path>
-                        </svg>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-                <!-- card -->
+                {%for i in accomodations%}
+                  {%include 'accom-card.html'%}
+                {%endfor%}
+                <!-- /card -->
               </div>
             </div>
           </div>
