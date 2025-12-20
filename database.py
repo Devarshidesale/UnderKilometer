@@ -12,16 +12,6 @@ engine = create_engine(
    echo=True,
 )
 
-with  engine.connect() as connection:
-  result = connection.execute(text("SELECT * FROM UnderKilometer_survey_response"))
-  # col_names =  result.keys()
-  # print(col_names)
-  result_all = result.all()
-  print(f"type of result.all(): {type(result_all)}")
-  print(f"type of result: {type(result)}")
-  if result_all:
-    first_res = result_all[0]
-    print(f"type of first_res: {type(first_res)}")
-  else:
-    print("No results found in the table")
+
+  
   
