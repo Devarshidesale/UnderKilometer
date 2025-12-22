@@ -1,36 +1,84 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, request
 from database import engine
 from sqlalchemy import text
 
 app = Flask(__name__)
 
-# ACCOMODATIONS = [
-#    {
-#       "name": "khandu hostel",
-#       "distance": "800m",
-#       "rent": "4200/month",
-#    },
-#    {
-#       "name": "stanza living",
-#       "distance": "1500m",
-#       "rent": "25000/month",
-#    },  
-# ]
+def load_accommodations(filters):
+    query = "SELECT * FROM UnderKilometer_survey_response WHERE 1=1"
+    params = {}
 
-def load_accomodations():
-   with  engine.connect() as connection:
-      result = connection.execute(text("SELECT * FROM UnderKilometer_survey_response"))
-      #making a list of dictionaries with each dictionary is row of table
-      test_dict = [dict(row._mapping) for row in result.all()]  
-      return test_dict
+    # Distance filter
+    if filters.get("distance") and filters["distance"] != "none":
+        query += " AND distance <= :distance"
+        params["distance"] = int(filters["distance"])
 
-@app.route('/')
-def hello_world():
-   return render_template('index.html', accomodations= load_accomodations())
+    # Accommodation type filter
+    if filters.get("accommodation") and filters["accommodation"] != "all":
+        query += " AND LOWER(accommodation_type) = :acc"
+        params["acc"] = filters["accommodation"].lower()
 
-# @app.route('/accommodations')
-# def list():
-#    return jsonify(ACCOMODATIONS)
-   
+    # Gender filter
+    if filters.get("gender") and filters["gender"] != "all":
+        query += " AND LOWER(gender) = :gender"
+        params["gender"] = filters["gender"].lower()
+
+    # Room type filter
+    if filters.get("roomtype") and filters["roomtype"] != "all":
+        query += " AND LOWER(room_type) = :room"
+        params["room"] = filters["roomtype"].lower()
+
+    # Rent range filter
+    if filters.get("rent") and filters["rent"] != "all":
+        rent_value = filters["rent"]
+        if rent_value == "5k":
+            query += " AND monthly_rent < 5000"
+        elif rent_value == "10k":
+            query += " AND monthly_rent >= 5000 AND monthly_rent < 10000"
+        elif rent_value == "15k":
+            query += " AND monthly_rent >= 10000 AND monthly_rent < 15000"
+        elif rent_value == "20k":
+            query += " AND monthly_rent >= 15000 AND monthly_rent < 20000"
+        elif rent_value == "above":
+            query += " AND monthly_rent >= 20000"
+
+    # Amenities filter (multiple checkboxes)
+    amenities = filters.get("amenity", [])
+    if amenities:
+        # Assuming you have columns for amenities like wifi, ac, kitchen, etc.
+        for amenity in amenities:
+            query += f" AND {amenity} = 1"  # Adjust based on your schema
+
+    print("FINAL SQL:", query)
+    print("PARAMS:", params)
+
+    with engine.connect() as conn:
+        result = conn.execute(text(query), params)
+        return [dict(row._mapping) for row in result.fetchall()]
+
+          
+
+@app.route('/', methods=['GET'])
+def index():
+    # Get filters - use flat=True to get single values instead of lists
+    filters = {}
+    filters['distance'] = request.args.get('distance', 'none')
+    filters['accommodation'] = request.args.get('accommodation', 'all')
+    filters['gender'] = request.args.get('gender', 'all')
+    filters['roomtype'] = request.args.get('roomtype', 'all')
+    filters['rent'] = request.args.get('rent', 'all')
+    filters['amenity'] = request.args.getlist('amenity')  # Get list for checkboxes
+
+    print("FILTERS RECEIVED:", filters)
+
+    accommodations = load_accommodations(filters)
+
+    print(f"FOUND {len(accommodations)} ACCOMMODATIONS")
+
+    return render_template(
+        'index.html',
+        accomodations=accommodations
+    )
+  
 if __name__ == '__main__':
    app.run(host='0.0.0.0', debug=True) 
