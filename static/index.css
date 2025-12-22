@@ -229,6 +229,7 @@
 /* Filter Dropdown Wrapper */
 .filter-dropdown-wrapper {
   display: flex;
+  margin: 1rem;
   flex-direction: column;
   gap: 8px;
 }

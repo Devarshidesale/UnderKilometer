@@ -2,6 +2,44 @@ from flask import Flask, render_template, request
 from database import engine
 from sqlalchemy import text
 
+# "distance", "name of accommodation", "gender type", "room type", "overall monthly rent"
+filter_list = []
+# "wifi","ac","kitchen","parking","mess/tiffin","security(CCTV/guard","washing machine","personal washroom"
+amenities = {
+   "wifi":{
+      "value":"wifi",
+      "amenity-label":"Wi-Fi",
+   },
+   "ac":{
+      "value":"ac",
+      "amenity-label":"AC",
+   },
+   "kitchen":{
+      "value":"kitchen",
+      "amenity-label":"Kitchen",
+   },
+   "parking":{
+      "value":"parking",
+      "amenity-label":"Parking",
+   },
+   "mess":{
+      "value":"mess",
+      "amenity-label":"Mess/Tiffin",
+   },
+   "security":{
+      "value":"security",
+      "amenity-label":"Security(CCTV/Guard)",
+   },
+   "washing_machine":{
+      "value":"washing_machine",
+      "amenity-label":"Washing Machine",
+   },
+   "personal_washroom":{
+      "value":"personal_washroom",
+      "amenity-label":"Personal Washroom",
+   },
+}
+
 app = Flask(__name__)
 
 def load_accommodations(filters):
@@ -43,10 +81,10 @@ def load_accommodations(filters):
             query += " AND monthly_rent >= 20000"
 
     # Amenities filter (multiple checkboxes)
-    amenities = filters.get("amenity", [])
+    selected_amenities = filters.get("amenity", [])
     if amenities:
         # Assuming you have columns for amenities like wifi, ac, kitchen, etc.
-        for amenity in amenities:
+        for amenity in selected_amenities:
             query += f" AND {amenity} = 1"  # Adjust based on your schema
 
     print("FINAL SQL:", query)
@@ -77,7 +115,8 @@ def index():
 
     return render_template(
         'index.html',
-        accomodations=accommodations
+        accomodations=accommodations,
+        amenities=amenities,
     )
   
 if __name__ == '__main__':
