@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set initial display text based on checked radio
     radios.forEach((radio, index) => {
       if (radio.checked) {
-        selected.textContent = options[index].getAttribute('data-txt');
+        selected.textContent = options[index].textContent;
       }
     });
 
@@ -19,32 +19,43 @@ document.addEventListener('DOMContentLoaded', function() {
     selected.addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
+
+      // Close all other dropdowns first
+      document.querySelectorAll('.select .options').forEach(opts => {
+        if (opts !== optionsContainer) {
+          opts.style.display = 'none';
+        }
+      });
+
+      // Toggle current dropdown
       optionsContainer.style.display = 
         optionsContainer.style.display === 'block' ? 'none' : 'block';
     });
 
     // Handle option selection via label clicks
+    // The label's "for" attribute will automatically check the radio
     options.forEach((option, index) => {
       option.addEventListener('click', function(e) {
-        // Let the label naturally handle the radio button association (for attribute)
-        // Just update the UI display
         const radioButton = radios[index];
-        if (radioButton) {
-          selected.textContent = option.getAttribute('data-txt');
-          console.log(`Selected filter: ${radioButton.name} = ${radioButton.value}`);
-          // Force a small delay to ensure radio is checked before hiding dropdown
-          setTimeout(() => {
-            optionsContainer.style.display = 'none';
-          }, 10);
-        }
+
+        // Update display text
+        selected.textContent = option.textContent;
+
+        // Log for debugging
+        console.log(`Selected: ${radioButton.name} = ${radioButton.value}`);
+
+        // Close dropdown after selection
+        setTimeout(() => {
+          optionsContainer.style.display = 'none';
+        }, 100);
       });
     });
 
-    // Also handle direct radio button changes
+    // Also handle direct radio button changes (for accessibility)
     radios.forEach((radio, index) => {
       radio.addEventListener('change', function() {
         if (this.checked) {
-          selected.textContent = options[index].getAttribute('data-txt');
+          selected.textContent = options[index].textContent;
           console.log(`Radio changed: ${this.name} = ${this.value}`);
         }
       });
@@ -55,24 +66,22 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('click', function(event) {
     const isSelect = event.target.closest('.select');
     if (!isSelect) {
-      selects.forEach(select => {
-        const opts = select.querySelector('.options');
-        if (opts) opts.style.display = 'none';
+      document.querySelectorAll('.select .options').forEach(opts => {
+        opts.style.display = 'none';
       });
     }
   });
 
-  // Handle form submission - ensure all values are properly set
+  // Handle form submission - log all values for debugging
   const form = document.querySelector('form');
   if (form) {
     form.addEventListener('submit', function(e) {
-      // Get all form data to verify
       const formData = new FormData(this);
-      console.log('Form submitting with data:');
+      console.log('=== FORM SUBMISSION ===');
       for (let [key, value] of formData.entries()) {
-        console.log(`  ${key}: ${value}`);
+        console.log(`${key}: ${value}`);
       }
-      // Form will naturally submit
+      console.log('======================');
     });
   }
 });

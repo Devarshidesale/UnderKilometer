@@ -2,41 +2,38 @@ from flask import Flask, render_template, request
 from database import engine
 from sqlalchemy import text
 
-# "distance", "name of accommodation", "gender type", "room type", "overall monthly rent"
-filter_list = []
-# "wifi","ac","kitchen","parking","mess/tiffin","security(CCTV/guard","washing machine","personal washroom"
 amenities = {
-   "wifi":{
-      "value":"wifi",
-      "amenity-label":"Wi-Fi",
+   "wifi": {
+      "value": "wifi",
+      "amenity-label": "Wi-Fi",
    },
-   "ac":{
-      "value":"ac",
-      "amenity-label":"AC",
+   "ac": {
+      "value": "ac",
+      "amenity-label": "AC",
    },
-   "kitchen":{
-      "value":"kitchen",
-      "amenity-label":"Kitchen",
+   "kitchen": {
+      "value": "kitchen",
+      "amenity-label": "Kitchen",
    },
-   "parking":{
-      "value":"parking",
-      "amenity-label":"Parking",
+   "parking": {
+      "value": "parking",
+      "amenity-label": "Parking",
    },
-   "mess":{
-      "value":"mess",
-      "amenity-label":"Mess/Tiffin",
+   "mess": {
+      "value": "mess",
+      "amenity-label": "Mess/Tiffin",
    },
-   "security":{
-      "value":"security",
-      "amenity-label":"Security(CCTV/Guard)",
+   "security": {
+      "value": "security",
+      "amenity-label": "Security(CCTV/Guard)",
    },
-   "washing_machine":{
-      "value":"washing_machine",
-      "amenity-label":"Washing Machine",
+   "washing_machine": {
+      "value": "washing_machine",
+      "amenity-label": "Washing Machine",
    },
-   "personal_washroom":{
-      "value":"personal_washroom",
-      "amenity-label":"Personal Washroom",
+   "personal_washroom": {
+      "value": "personal_washroom",
+      "amenity-label": "Personal Washroom",
    },
 }
 
@@ -80,46 +77,48 @@ def load_accommodations(filters):
         elif rent_value == "above":
             query += " AND monthly_rent >= 20000"
 
-    # Amenities filter (multiple checkboxes)
+    # Amenities filter (multiple checkboxes) - FIXED
     selected_amenities = filters.get("amenity", [])
-    if amenities:
-        # Assuming you have columns for amenities like wifi, ac, kitchen, etc.
+    if selected_amenities:  # Changed from 'if amenities'
         for amenity in selected_amenities:
-            query += f" AND {amenity} = 1"  # Adjust based on your schema
+            query += f" AND {amenity} = 1"
 
+    print("=" * 50)
     print("FINAL SQL:", query)
     print("PARAMS:", params)
+    print("SELECTED AMENITIES:", selected_amenities)
+    print("=" * 50)
 
     with engine.connect() as conn:
         result = conn.execute(text(query), params)
         return [dict(row._mapping) for row in result.fetchall()]
 
-          
-
 @app.route('/', methods=['GET'])
 def index():
-    # Get filters - use flat=True to get single values instead of lists
-    filters = {}
-    filters['distance'] = request.args.get('distance', 'none')
-    filters['accommodation'] = request.args.get('accommodation', 'all')
-    filters['gender'] = request.args.get('gender', 'all')
-    filters['roomtype'] = request.args.get('roomtype', 'all')
-    filters['rent'] = request.args.get('rent', 'all')
-    filters['amenity'] = request.args.getlist('amenity')  # Get list for checkboxes
+    # Get filters from query parameters
+    filters = {
+        'distance': request.args.get('distance', 'none'),
+        'accommodation': request.args.get('accommodation', 'all'),
+        'gender': request.args.get('gender', 'all'),
+        'roomtype': request.args.get('roomtype', 'all'),
+        'rent': request.args.get('rent', 'all'),
+        'amenity': request.args.getlist('amenity')
+    }
 
-    print("FILTERS RECEIVED:", filters)
+    print("=" * 50)
+    print("FILTERS RECEIVED FROM FORM:")
+    for key, value in filters.items():
+        print(f"  {key}: {value}")
+    print("=" * 50)
 
     accommodations = load_accommodations(filters)
-
     print(f"FOUND {len(accommodations)} ACCOMMODATIONS")
 
-    response = render_template(
+    return render_template(
         'index.html',
         accomodations=accommodations,
         amenities=amenities,
     )
-    
-    return response
-  
+
 if __name__ == '__main__':
-   app.run(host='0.0.0.0', debug=True) 
+    app.run(host='0.0.0.0', debug=True)
