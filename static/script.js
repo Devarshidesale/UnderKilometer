@@ -6,29 +6,48 @@ document.addEventListener('DOMContentLoaded', function() {
     const selected = select.querySelector('.selected');
     const optionsContainer = select.querySelector('.options');
     const options = select.querySelectorAll('.option');
-    const inputs = select.querySelectorAll('input[type="radio"]');
+    const radios = select.querySelectorAll('input[type="radio"]');
+
+    // Set initial display text based on checked radio
+    radios.forEach((radio, index) => {
+      if (radio.checked) {
+        selected.textContent = options[index].getAttribute('data-txt');
+      }
+    });
 
     // Toggle dropdown visibility
-    selected.addEventListener('click', function() {
+    selected.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
       optionsContainer.style.display = 
         optionsContainer.style.display === 'block' ? 'none' : 'block';
     });
 
-    // Handle option selection
+    // Handle option selection via label clicks
     options.forEach((option, index) => {
-      option.addEventListener('click', function() {
-        const input = inputs[index];
-        input.checked = true;
-        selected.textContent = option.getAttribute('data-txt');
-        optionsContainer.style.display = 'none';
+      option.addEventListener('click', function(e) {
+        // Let the label naturally handle the radio button association (for attribute)
+        // Just update the UI display
+        const radioButton = radios[index];
+        if (radioButton) {
+          selected.textContent = option.getAttribute('data-txt');
+          console.log(`Selected filter: ${radioButton.name} = ${radioButton.value}`);
+          // Force a small delay to ensure radio is checked before hiding dropdown
+          setTimeout(() => {
+            optionsContainer.style.display = 'none';
+          }, 10);
+        }
       });
     });
 
-    // Set initial display text based on checked radio
-    inputs.forEach((input, index) => {
-      if (input.checked) {
-        selected.textContent = options[index].getAttribute('data-txt');
-      }
+    // Also handle direct radio button changes
+    radios.forEach((radio, index) => {
+      radio.addEventListener('change', function() {
+        if (this.checked) {
+          selected.textContent = options[index].getAttribute('data-txt');
+          console.log(`Radio changed: ${this.name} = ${this.value}`);
+        }
+      });
     });
   });
 
@@ -37,26 +56,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const isSelect = event.target.closest('.select');
     if (!isSelect) {
       selects.forEach(select => {
-        select.querySelector('.options').style.display = 'none';
+        const opts = select.querySelector('.options');
+        if (opts) opts.style.display = 'none';
       });
     }
   });
 
-  // Handle amenity checkboxes
-  const amenityCheckboxes = document.querySelectorAll('input[name="amenity"]');
-  amenityCheckboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-      // Could add live filtering here if needed
-      console.log('Amenity selected:', this.value);
-    });
-  });
-
-  // Handle form submission
+  // Handle form submission - ensure all values are properly set
   const form = document.querySelector('form');
   if (form) {
     form.addEventListener('submit', function(e) {
-      console.log('Form submitted with filters');
-      // Form will submit and page will reload with filtered results
+      // Get all form data to verify
+      const formData = new FormData(this);
+      console.log('Form submitting with data:');
+      for (let [key, value] of formData.entries()) {
+        console.log(`  ${key}: ${value}`);
+      }
+      // Form will naturally submit
     });
   }
 });
