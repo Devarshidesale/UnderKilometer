@@ -7,6 +7,7 @@ channel = "stable-25_05"
 packages = ["gir-rs"]
 
 [workflows]
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "app.py"
@@ -16,6 +17,27 @@ author = 51216040
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "python3 app.py"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Flask App"
+
+[[workflows.workflow]]
+name = "Flask App"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python app.py"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
 
 [[ports]]
 localPort = 5000

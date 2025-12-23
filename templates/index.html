@@ -90,6 +90,7 @@
   </head>
   <body>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
     <div>
       <link href="{{ url_for('static', filename='index.css') }}" rel="stylesheet" />
 
@@ -200,7 +201,7 @@
               </div>
               <div class="accomodation-card-section">
                 <!-- card --> 
-                {% for i in accomodation %}
+                {% for i in accomodations %}
                   {% include 'accom-card.html' %}
                 {% endfor %}
                 <!-- /card -->

@@ -113,11 +113,13 @@ def index():
 
     print(f"FOUND {len(accommodations)} ACCOMMODATIONS")
 
-    return render_template(
+    response = render_template(
         'index.html',
         accomodations=accommodations,
         amenities=amenities,
     )
+    
+    return response
   
 if __name__ == '__main__':
    app.run(host='0.0.0.0', debug=True) 
