@@ -1,165 +1,82 @@
-<!-- Distance Filter -->
-<div class="filter-dropdown-wrapper">
-  <label class="filter-label">Distance</label>
-  <div class="select">
-    <div class="selected" data-default="Select Distance">
-      <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" class="arrow">
-        <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"></path>
-      </svg>
-    </div>
+  <!-- Distance Filter -->
+  <div class="filter-dropdown-wrapper">
+    <label class="filter-label">Distance</label>
     <div class="options">
-      <div>
-        <input value="none" id="dist-all" name="distance" type="radio" checked />
-        <label class="option" for="dist-all">All Distances</label>
-      </div>
-      <div>
-        <input value="500" id="dist-500m" name="distance" type="radio" />
-        <label class="option" for="dist-500m">Under 500m</label>
-      </div>
-      <div>
-        <input value="1000" id="dist-1km" name="distance" type="radio" />
-        <label class="option" for="dist-1km">Under 1km</label>
-      </div>
-      <div>
-        <input value="2000" id="dist-2km" name="distance" type="radio" />
-        <label class="option" for="dist-2km">Under 2km</label>
-      </div>
-      <div>
-        <input value="5000" id="dist-5km" name="distance" type="radio" />
-        <label class="option" for="dist-5km">Under 5km</label>
-      </div>
+      {% set dist = request.args.get('distance', 'none') %}
+      <label>
+        <input type="radio" name="distance" value="none" {{ 'checked' if dist == 'none' else '' }}>
+        All Distances
+      </label>
+      <label>
+        <input type="radio" name="distance" value="500" {{ 'checked' if dist == '500' else '' }}>
+        Under 500m
+      </label>
+      <label>
+        <input type="radio" name="distance" value="1000" {{ 'checked' if dist == '1000' else '' }}>
+        Under 1km
+      </label>
+      <label>
+        <input type="radio" name="distance" value="2000" {{ 'checked' if dist == '2000' else '' }}>
+        Under 2km
+      </label>
+      <label>
+        <input type="radio" name="distance" value="5000" {{ 'checked' if dist == '5000' else '' }}>
+        Under 5km
+      </label>
     </div>
   </div>
-</div>
 
-<!-- Accommodation Type Filter -->
-<div class="filter-dropdown-wrapper">
-  <label class="filter-label">Accommodation Type</label>
-  <div class="select">
-    <div class="selected" data-default="Select Type">
-      <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" class="arrow">
-        <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"></path>
-      </svg>
-    </div>
-    <div class="options">
-      <div>
-        <input value="all" id="acc-all" name="accommodation" type="radio" checked />
-        <label class="option" for="acc-all">All Types</label>
-      </div>
-      <div>
-        <input value="hostel" id="acc-hostel" name="accommodation" type="radio" />
-        <label class="option" for="acc-hostel">Hostel</label>
-      </div>
-      <div>
-        <input value="pg" id="acc-pg" name="accommodation" type="radio" />
-        <label class="option" for="acc-pg">PG</label>
-      </div>
-      <div>
-        <input value="flat" id="acc-flat" name="accommodation" type="radio" />
-        <label class="option" for="acc-flat">Flat</label>
-      </div>
-    </div>
+  <!-- Accommodation Type -->
+  <div class="filter-dropdown-wrapper">
+    {% set acc = request.args.get('accommodation', 'all') %}
+    <label class="filter-label">Accommodation Type</label>
+    {% for v in ['all','hostel','pg','flat'] %}
+      <label>
+        <input type="radio" name="accommodation" value="{{ v }}" {{ 'checked' if acc == v else '' }}>
+        {{ v|capitalize }}
+      </label>
+    {% endfor %}
   </div>
-</div>
 
-<!-- Gender Type Filter -->
-<div class="filter-dropdown-wrapper">
-  <label class="filter-label">Gender</label>
-  <div class="select">
-    <div class="selected" data-default="Select Gender">
-      <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" class="arrow">
-        <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"></path>
-      </svg>
-    </div>
-    <div class="options">
-      <div>
-        <input value="all" id="gen-all" name="gender" type="radio" checked />
-        <label class="option" for="gen-all">All Genders</label>
-      </div>
-      <div>
-        <input value="male" id="gen-male" name="gender" type="radio" />
-        <label class="option" for="gen-male">Male Only</label>
-      </div>
-      <div>
-        <input value="female" id="gen-female" name="gender" type="radio" />
-        <label class="option" for="gen-female">Female Only</label>
-      </div>
-      <div>
-        <input value="coed" id="gen-coed" name="gender" type="radio" />
-        <label class="option" for="gen-coed">Co-ed</label>
-      </div>
-    </div>
+  <!-- Gender -->
+  <div class="filter-dropdown-wrapper">
+    {% set gen = request.args.get('gender', 'all') %}
+    <label class="filter-label">Gender</label>
+    {% for v,l in [('all','All'),('male','Male Only'),('female','Female Only'),('coed','Co-ed')] %}
+      <label>
+        <input type="radio" name="gender" value="{{ v }}" {{ 'checked' if gen == v else '' }}>
+        {{ l }}
+      </label>
+    {% endfor %}
   </div>
-</div>
 
-<!-- Monthly Rent Range Filter -->
-<div class="filter-dropdown-wrapper">
-  <label class="filter-label">Monthly Rent</label>
-  <div class="select">
-    <div class="selected" data-default="Select Range">
-      <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" class="arrow">
-        <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"></path>
-      </svg>
-    </div>
-    <div class="options">
-      <div>
-        <input value="all" id="rent-all" name="rent" type="radio" checked />
-        <label class="option" for="rent-all">All Ranges</label>
-      </div>
-      <div>
-        <input value="5k" id="rent-5k" name="rent" type="radio" />
-        <label class="option" for="rent-5k">Under ₹5,000</label>
-      </div>
-      <div>
-        <input value="10k" id="rent-10k" name="rent" type="radio" />
-        <label class="option" for="rent-10k">₹5,000 - ₹10,000</label>
-      </div>
-      <div>
-        <input value="15k" id="rent-15k" name="rent" type="radio" />
-        <label class="option" for="rent-15k">₹10,000 - ₹15,000</label>
-      </div>
-      <div>
-        <input value="20k" id="rent-20k" name="rent" type="radio" />
-        <label class="option" for="rent-20k">₹15,000 - ₹20,000</label>
-      </div>
-      <div>
-        <input value="above" id="rent-above" name="rent" type="radio" />
-        <label class="option" for="rent-above">Above ₹20,000</label>
-      </div>
-    </div>
+  <!-- Rent -->
+  <div class="filter-dropdown-wrapper">
+    {% set rent = request.args.get('rent','all') %}
+    <label class="filter-label">Monthly Rent</label>
+    {% for v,l in [
+      ('all','All'),
+      ('5k','Under ₹5,000'),
+      ('10k','₹5k - ₹10k'),
+      ('15k','₹10k - ₹15k'),
+      ('20k','₹15k - ₹20k'),
+      ('above','Above ₹20k')
+    ] %}
+      <label>
+        <input type="radio" name="rent" value="{{ v }}" {{ 'checked' if rent == v else '' }}>
+        {{ l }}
+      </label>
+    {% endfor %}
   </div>
-</div>
 
-<!-- Type of Room Filter -->
-<div class="filter-dropdown-wrapper">
-  <label class="filter-label">Type of Room</label>
-  <div class="select">
-    <div class="selected" data-default="Select Room Type">
-      <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" class="arrow">
-        <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"></path>
-      </svg>
-    </div>
-    <div class="options">
-      <div>
-        <input value="all" id="room-all" name="roomtype" type="radio" checked />
-        <label class="option" for="room-all">All Room Types</label>
-      </div>
-      <div>
-        <input value="single" id="room-single" name="roomtype" type="radio" />
-        <label class="option" for="room-single">Single</label>
-      </div>
-      <div>
-        <input value="double" id="room-double" name="roomtype" type="radio" />
-        <label class="option" for="room-double">Double Sharing</label>
-      </div>
-      <div>
-        <input value="triple" id="room-triple" name="roomtype" type="radio" />
-        <label class="option" for="room-triple">Triple Sharing</label>
-      </div>
-      <div>
-        <input value="multi" id="room-multi" name="roomtype" type="radio" />
-        <label class="option" for="room-multi">Multi Sharing</label>
-      </div>
-    </div>
+  <!-- Room Type -->
+  <div class="filter-dropdown-wrapper">
+    {% set room = request.args.get('roomtype','all') %}
+    <label class="filter-label">Room Type</label>
+    {% for v in ['all','single','double','triple','multi'] %}
+      <label>
+        <input type="radio" name="roomtype" value="{{ v }}" {{ 'checked' if room == v else '' }}>
+        {{ v|capitalize }}
+      </label>
+    {% endfor %}
   </div>
-</div>

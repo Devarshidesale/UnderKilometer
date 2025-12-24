@@ -1,124 +1,80 @@
 from flask import Flask, render_template, request
-from database import engine
 from sqlalchemy import text
-
-amenities = {
-   "wifi": {
-      "value": "wifi",
-      "amenity-label": "Wi-Fi",
-   },
-   "ac": {
-      "value": "ac",
-      "amenity-label": "AC",
-   },
-   "kitchen": {
-      "value": "kitchen",
-      "amenity-label": "Kitchen",
-   },
-   "parking": {
-      "value": "parking",
-      "amenity-label": "Parking",
-   },
-   "mess": {
-      "value": "mess",
-      "amenity-label": "Mess/Tiffin",
-   },
-   "security": {
-      "value": "security",
-      "amenity-label": "Security(CCTV/Guard)",
-   },
-   "washing_machine": {
-      "value": "washing_machine",
-      "amenity-label": "Washing Machine",
-   },
-   "personal_washroom": {
-      "value": "personal_washroom",
-      "amenity-label": "Personal Washroom",
-   },
-}
+from database import engine
 
 app = Flask(__name__)
+
+amenities = {
+    "wifi": {"value": "wifi", "amenity-label": "Wi-Fi"},
+    "ac": {"value": "ac", "amenity-label": "AC"},
+    "kitchen": {"value": "kitchen", "amenity-label": "Kitchen"},
+    "parking": {"value": "parking", "amenity-label": "Parking"},
+    "mess": {"value": "mess", "amenity-label": "Mess"},
+    "security": {"value": "security", "amenity-label": "Security"},
+    "washing_machine": {"value": "washing_machine", "amenity-label": "Washing Machine"},
+    "personal_washroom": {"value": "personal_washroom", "amenity-label": "Personal Washroom"},
+}
+
 
 def load_accommodations(filters):
     query = "SELECT * FROM UnderKilometer_survey_response WHERE 1=1"
     params = {}
 
-    # Distance filter
-    if filters.get("distance") and filters["distance"] != "none":
+    if filters["distance"] != "none":
         query += " AND distance <= :distance"
         params["distance"] = int(filters["distance"])
 
-    # Accommodation type filter
-    if filters.get("accommodation") and filters["accommodation"] != "all":
+    if filters["accommodation"] != "all":
         query += " AND LOWER(accommodation_type) = :acc"
-        params["acc"] = filters["accommodation"].lower()
+        params["acc"] = filters["accommodation"]
 
-    # Gender filter
-    if filters.get("gender") and filters["gender"] != "all":
+    if filters["gender"] != "all":
         query += " AND LOWER(gender) = :gender"
-        params["gender"] = filters["gender"].lower()
+        params["gender"] = filters["gender"]
 
-    # Room type filter
-    if filters.get("roomtype") and filters["roomtype"] != "all":
+    if filters["roomtype"] != "all":
         query += " AND LOWER(room_type) = :room"
-        params["room"] = filters["roomtype"].lower()
+        params["room"] = filters["roomtype"]
 
-    # Rent range filter
-    if filters.get("rent") and filters["rent"] != "all":
-        rent_value = filters["rent"]
-        if rent_value == "5k":
-            query += " AND monthly_rent < 5000"
-        elif rent_value == "10k":
-            query += " AND monthly_rent >= 5000 AND monthly_rent < 10000"
-        elif rent_value == "15k":
-            query += " AND monthly_rent >= 10000 AND monthly_rent < 15000"
-        elif rent_value == "20k":
-            query += " AND monthly_rent >= 15000 AND monthly_rent < 20000"
-        elif rent_value == "above":
-            query += " AND monthly_rent >= 20000"
+    rent = filters["rent"]
+    if rent != "all":
+        rent_map = {
+            "5k": "monthly_rent < 5000",
+            "10k": "monthly_rent BETWEEN 5000 AND 9999",
+            "15k": "monthly_rent BETWEEN 10000 AND 14999",
+            "20k": "monthly_rent BETWEEN 15000 AND 19999",
+            "above": "monthly_rent >= 20000",
+        }
+        query += f" AND {rent_map[rent]}"
 
-    # Amenities filter (multiple checkboxes) - FIXED
-    selected_amenities = filters.get("amenity", [])
-    if selected_amenities:  # Changed from 'if amenities'
-        for amenity in selected_amenities:
+    for amenity in filters["amenity"]:
+        if amenity in amenities:
             query += f" AND {amenity} = 1"
-
-    print("=" * 50)
-    print("FINAL SQL:", query)
-    print("PARAMS:", params)
-    print("SELECTED AMENITIES:", selected_amenities)
-    print("=" * 50)
 
     with engine.connect() as conn:
         result = conn.execute(text(query), params)
         return [dict(row._mapping) for row in result.fetchall()]
 
-@app.route('/', methods=['GET'])
+
+@app.route("/", methods=["GET"])
 def index():
-    # Get filters from query parameters
     filters = {
-        'distance': request.args.get('distance', 'none'),
-        'accommodation': request.args.get('accommodation', 'all'),
-        'gender': request.args.get('gender', 'all'),
-        'roomtype': request.args.get('roomtype', 'all'),
-        'rent': request.args.get('rent', 'all'),
-        'amenity': request.args.getlist('amenity')
+        "distance": request.args.get("distance", "none"),
+        "accommodation": request.args.get("accommodation", "all"),
+        "gender": request.args.get("gender", "all"),
+        "roomtype": request.args.get("roomtype", "all"),
+        "rent": request.args.get("rent", "all"),
+        "amenity": request.args.getlist("amenity"),
     }
 
-    print("=" * 50)
-    print("FILTERS RECEIVED FROM FORM:")
-    for key, value in filters.items():
-        print(f"  {key}: {value}")
-    print("=" * 50)
-
     accommodations = load_accommodations(filters)
-    print(f"FOUND {len(accommodations)} ACCOMMODATIONS")
 
     return render_template(
-        'index.html',
+        "index.html",
         accomodations=accommodations,
-        amenities=amenities,
+        amenities=amenities
     )
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+
+if __name__ == "__main__":
+    app.run(debug=True)

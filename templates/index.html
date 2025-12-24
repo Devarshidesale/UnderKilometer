@@ -166,23 +166,22 @@
 
                 <!-- Filter Grid Container -->
                 <div class="filter-grid-container">
-                  <form method="GET" action="/">
+                    <form method="get" action="{{ url_for('index') }}">
                     {%include 'filter.html'%}
+                      
                     <!-- Amenities Section - NOW INSIDE FORM -->
-                    <div class="amenities-section">
-                      <label class="amenities-header">Amenities</label>
-                      <div class="amenities-grid">
-                        {% for key, i in amenities.items() %}
+                      <!-- Amenities -->
+                      <div class="amenities-section">
+                        <label class="amenities-header">Amenities</label>
+                        {% set selected_amenities = request.args.getlist('amenity') %}
+                        {% for key, a in amenities.items() %}
                           <label class="amenity-checkbox">
-                            <input type="checkbox" name="amenity" value="{{ i['value'] }}">
-                            <span class="checkmark"></span>
-                            <span class="amenity-label">{{ i['amenity-label'] }}</span>
+                            <input type="checkbox" name="amenity" value="{{ a.value }}"
+                              {{ 'checked' if a.value in selected_amenities else '' }}>
+                            {{ a['amenity-label'] }}
                           </label>
                         {% endfor %}
-
                       </div>
-                    </div>
-
                     <!-- Single Submit Button -->
                     <button type="submit">Apply Filter</button>
                   </form>
