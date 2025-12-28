@@ -1,0 +1,50 @@
+.desktop-thq-navigation-elm {
+  gap: 24px;
+  width: 250px;
+  height: 300px;
+  display: flex;
+  padding: 0 0 30px;
+  align-items: flex-start;
+  flex-shrink: 0;
+  flex-direction: column;
+  background-color: var(--dl-color-background-background1);
+}
+
+.desktop-thq-logo-elm {
+  gap: 10px;
+  display: flex;
+  padding: 30px 20px 30px 32px;
+  overflow: hidden;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: rgba(0, 0, 0, 0.10000000149011612);
+  border-style: solid;
+  border-width: 0 0 1px;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.desktop-thq-contents-elm {
+  gap: 10px;
+  display: flex;
+  padding: 0 20px 30px 32px;
+  align-self: stretch;
+  align-items: flex-start;
+  border-color: rgba(0, 0, 0, 0.10000000149011612);
+  border-style: solid;
+  border-width: 0 0 1px;
+  flex-direction: column;
+}
+
+.desktop-thq-link-elm1 {
+  display: flex;
+  align-items: flex-start;
+}
+
+.desktop-thq-text-elm {
+  color: var(--dl-color-text-paragraph1);
+  height: auto;
+  text-align: left;
+  line-height: 120.00000476837158%;
+}
+

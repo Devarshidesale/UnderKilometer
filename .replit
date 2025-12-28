@@ -4,7 +4,7 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
-packages = ["gir-rs"]
+packages = ["gir-rs", "psmisc"]
 
 [workflows]
 runButton = "Project"
@@ -40,10 +40,18 @@ waitForPort = 5000
 outputType = "webview"
 
 [[ports]]
-localPort = 5000
+localPort = 3000
 externalPort = 80
+
+[[ports]]
+localPort = 5000
+externalPort = 5000
+
+[[ports]]
+localPort = 8080
+externalPort = 8080
 
 [userenv]
 
 [userenv.shared]
-DATABASE_URL_STRING = "mysql+pymysql://2G57bbn4J9q1ruD.root:fAzz6Q2HvFbz0guU@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/test"
+DATABASE_URL_STRING = "mysql+pymysql://SnzNKrqHQh5pseQ.root:vlyz3qPPrBu9gYdd@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/test"

@@ -87,10 +87,12 @@
       rel="stylesheet"
       href="https://unpkg.com/@teleporthq/teleport-custom-scripts/dist/style.css"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
   </head>
   <body>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
     <div>
       <link href="{{ url_for('static', filename='index.css') }}" rel="stylesheet" />
 
@@ -119,6 +121,7 @@
             </div>
           </div>
           <div class="desktop-thq-main-elm1">
+            <div class="desktop-thq-hero-text-elm">UnderKilometer</div>
             <img class="desktop-thq-hero-elm" src="{{ url_for('static', filename='assets/download_bg.png') }}"></img>
             <div class="desktop-thq-main-elm2">
               <div class="desktop-thq-introsection-elm">
@@ -166,27 +169,13 @@
 
                 <!-- Filter Grid Container -->
                 <div class="filter-grid-container">
-                    <form method="get" action="{{ url_for('index') }}">
-                    {%include 'filter.html'%}
-                      
-                    <!-- Amenities Section - NOW INSIDE FORM -->
-                      <!-- Amenities -->
-                      <div class="amenities-section">
-                        <label class="amenities-header">Amenities</label>
-                        {% set selected_amenities = request.args.getlist('amenity') %}
-                        {% for key, a in amenities.items() %}
-                          <label class="amenity-checkbox">
-                            <input type="checkbox" name="amenity" value="{{ a.value }}"
-                              {{ 'checked' if a.value in selected_amenities else '' }}>
-                            {{ a['amenity-label'] }}
-                          </label>
-                        {% endfor %}
-                      </div>
-                    <!-- Single Submit Button -->
-                    <button type="submit">Apply Filter</button>
+                  <form method="get" action="{{ url_for('index') }}">
+                    
+
                   </form>
                 </div>
               </div>
+              <!-- /end ENHANCED FILTER SECTION -->
               <div class="desktop-thq-colorsection-elm">
                 <div class="desktop-thq-header-elm2">
                   <div class="desktop-thq-title-elm2">
@@ -198,9 +187,10 @@
                   </div>
                 </div>
               </div>
+
               <div class="accomodation-card-section">
                 <!-- card --> 
-                {% for i in accomodations %}
+                {% for i in accom_param %}
                   {% include 'accom-card.html' %}
                 {% endfor %}
                 <!-- /card -->
