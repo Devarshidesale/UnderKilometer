@@ -5,5 +5,5 @@
     <p>{{i["distance"]}}</p>
     <span>student contact : {{i["phone_number"]}}</span>
   </div>
-  <a href="{{  }}" class="card-button">More info</a>
+  <a href="{{ url_for('get_accommodation_details', accom_id=i['id']) }}" class="card-button">More info</a>
 </div>
