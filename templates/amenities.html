@@ -1,0 +1,31 @@
+<!-- <div class="filter-group">
+  <h3 class="filter-heading">Amenities</h3>
+  <div class="checkbox-group">
+    {% for i in amenity_list %}
+      <label class="checkbox-label">
+        <input type="checkbox" name="amenities" value="{{i}}"
+          {% if 'amenity_list[i]' in applied_filters.amenities %}checked{% endif %}>
+        <span>{{i}}</span>
+      </label>
+    {% endfor %}
+    </label>
+  </div>
+</div> -->
+<div class="filter-group">
+  <h3 class="filter-heading">Amenities</h3>
+  <div class="checkbox-group">
+
+    {% for amenity in amenity_list %}
+      <label class="checkbox-label">
+        <input type="checkbox"
+               name="amenities"
+               value="{{ amenity }}"
+               {% if applied_filters.get('amenities') and amenity in applied_filters.amenities %}
+                   checked
+               {% endif %}>
+        <span>{{ amenity }}</span>
+      </label>
+    {% endfor %}
+
+  </div>
+</div>

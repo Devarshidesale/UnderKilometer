@@ -5,6 +5,7 @@ import os
 
 DATABASE_URL = os.environ["DATABASE_URL_STRING"]
 
+# primary key:id and id starts from 2 
 engine = create_engine(
    DATABASE_URL,
    connect_args={

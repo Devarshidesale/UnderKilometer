@@ -5,62 +5,91 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accommodation Details</title>
-  <link rel="stylesheet" href="../static/details.css">
-  <style data-tag="reset-style-sheet">
-    html {line-height: 1.15;}body {  margin: 0;}* { box-sizing: border-box;  border-width: 0;  border-style: solid;  -webkit-font-smoothing: antialiased;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;  color: inherit;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}pre {  white-space: normal;}input {  padding: 2px 4px;}img {  display: block;}details {  display: block;  margin: 0;  padding: 0;}summary::-webkit-details-marker {  display: none;}[data-thq="accordion"] [data-thq="accordion-content"] {  max-height: 0;  overflow: hidden;  transition: max-height 0.3s ease-in-out;  padding: 0;}[data-thq="accordion"] details[data-thq="accordion-trigger"][open] + [data-thq="accordion-content"] {  max-height: 1000vh;}details[data-thq="accordion-trigger"][open] summary [data-thq="accordion-icon"] {  transform: rotate(180deg);}html { scroll-behavior: smooth  }
-  </style>
-  <style data-tag="default-style-sheet">
-    html {
-      font-family: Inter;
-      font-size: 16px;
-    }
-
-    body {
-      font-weight: 400;
-      font-style:normal;
-      text-decoration: none;
-      text-transform: none;
-      letter-spacing: normal;
-      line-height: 1.15;
-      color: var(--dl-color-theme-neutral-dark);
-      background: var(--dl-color-theme-neutral-light);
-
-      fill: var(--dl-color-theme-neutral-dark);
-    }
-  </style>
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+  />
+  <link rel="stylesheet" href="{{ url_for('static', filename='details.css') }}" />  
 </head>
 <body>
-    <div class="header-section">
-        <div class="desktop-thq-navigation-elm">
-            <div class="desktop-thq-logo-elm"></div>
-            <div class="desktop-thq-contents-elm">
-                <a href="#" class="desktop-thq-text-elm Links">Homepage</a>
+  <div class="container">
+    <!-- Navigation Sidebar -->
+    <nav class="navigation">
+      <div class="logo-section">
+        <h2 style="font-size: 1.5rem; color: var(--dl-color-theme-primary2); font-weight: 600;">UnderKilometer</h2>
+      </div>
+      <div class="nav-links">
+        <a href="/" class="nav-link">Back to Homepage</a>
+        <a href="#details" class="nav-link">Details</a>
+        <a href="#amenities" class="nav-link">Amenities</a>
+        <a href="#stats" class="nav-link">Quick Stats</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header Section -->
+      <div class="header-section">
+        <h1 class="page-title">{{accom_param.accommodation_name}}</h1>
+        <p class="accommodation-name">Details</p>
+      </div>
+
+      <!-- Info Container -->
+      <div class="info-container">
+        <!-- All Stats Card -->
+        <div class="info-card" id="details">
+          <h3 class="card-title">Property Information</h3>
+          <ul class="info-list">
+            <li class="info-item">
+              <span class="info-label">Room Type:</span>
+              <span>{{accom_param.room_type}}</span>
+            </li>
+            <li class="info-item">
+              <span class="info-label">Gender Type:</span>
+              <span>{{accom_param.gender_type}}</span>
+            </li>
+            <li class="info-item">
+              <span class="info-label">Curfew Timing:</span>
+              <span>{{accom_param.curfew}}</span>
+            </li>
+            <li class="info-item">
+              <span class="info-label">Security Provided:</span>
+              <span>{{accom_param.security}}</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Quick Stats Card -->
+        <div class="info-card" id="stats">
+          <h3 class="card-title">Quick Stats</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-value">{{accom_param.distance}} km</div>
+              <div class="stat-label">Distance</div>
             </div>
+            <div class="stat-card">
+              <div class="stat-value">{{accom_param.rating}}</div>
+              <div class="stat-label">Rating</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">{{accom_param.recommendation}}</div>
+              <div class="stat-label">Recommended</div>
+            </div>
+          </div>
         </div>
-        <div>Title : {{ accommodation['accommodation_name'] }}</div>
+
+        <!-- Amenities Card -->
+        <div class="info-card full-width" id="amenities">
+          <h3 class="card-title">Available Amenities</h3>
+          <div class="amenities-grid">
+            {% for i in amenity_param %}
+              <div class="amenity-item">{{i.strip()}}</div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="info-container">
-        <div class="info-all-stats">
-            <ul>
-                <li>room type : </li>
-                <li>gender type : </li>
-                <li>room type : </li>
-                <li>curfew timing : </li>
-                <li>security provided : </li>
-            </ul>
-        </div>
-        <div class="info-amenities-section">
-            <ul>
-                <li>amenity 1</li>
-            </ul>
-        </div>
-        <div class="info-quick-stats">
-            <ul>
-                <li>distance : </li>
-                <li>accom type : </li>
-                <li>rating and recommendation : </li>
-            </ul>
-        </div>
-    </div>
+  </div>
 </body>
 </html>
+

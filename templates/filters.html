@@ -1,0 +1,83 @@
+<!-- Distance Filter -->
+<div class="filter-group">
+  <h3 class="filter-heading">Distance from College</h3>
+  <div class="radio-group">
+    <label class="radio-label">
+      <input type="radio" name="distance" value="0.5" 
+        {% if applied_filters.distance == '0.5' %}checked{% endif %}>
+      <span>Within 0.5 km</span>
+    </label>
+    <label class="radio-label">
+      <input type="radio" name="distance" value="1" 
+        {% if applied_filters.distance == '1' %}checked{% endif %}>
+      <span>Within 1 km</span>
+    </label>
+    <label class="radio-label">
+      <input type="radio" name="distance" value="2" 
+        {% if applied_filters.distance == '2' %}checked{% endif %}>
+      <span>Within 2 km</span>
+    </label>
+    <label class="radio-label">
+      <input type="radio" name="distance" value="3" 
+        {% if applied_filters.distance == '3' %}checked{% endif %}>
+      <span>More than 2 km</span>
+    </label>
+  </div>
+</div>
+
+<!-- Accommodation Type Filter -->
+<div class="filter-group">
+  <h3 class="filter-heading">Accommodation Type</h3>
+  <div class="radio-group">
+    <label class="radio-label">
+      <input type="radio" name="accommodation_type" value="Private Hostel" 
+        {% if applied_filters.accommodation_type == 'Private Hostel' %}checked{% endif %}>
+      <span>Hostel</span>
+    </label>
+    <label class="radio-label">
+      <input type="radio" name="accommodation_type" value="PG" 
+        {% if applied_filters.accommodation_type == 'PG' %}checked{% endif %}>
+      <span>PG</span>
+    </label>
+    <label class="radio-label">
+      <input type="radio" name="accommodation_type" value="Flat near PICT" 
+        {% if applied_filters.accommodation_type == 'Flat near PICT' %}checked{% endif %}>
+      <span>Flat</span>
+    </label>
+  </div>
+</div>
+
+<!-- Gender Filter -->
+<div class="filter-group">
+  <h3 class="filter-heading">Gender</h3>
+  <div class="radio-group">
+    <label class="radio-label">
+      <input type="radio" name="gender_type" value="Boys only" 
+        {% if applied_filters.gender_type == 'Boys only' %}checked{% endif %}>
+      <span>Male</span>
+    </label>
+    <label class="radio-label">
+      <input type="radio" name="gender_type" value="Girls only" 
+        {% if applied_filters.gender_type == 'Girls only' %}checked{% endif %}>
+      <span>Female</span>
+    </label>
+    <label class="radio-label">
+      <input type="radio" name="gender_type" value="Co-Ed" 
+        {% if applied_filters.gender_type == 'Co-Ed' %}checked{% endif %}>
+      <span>Co-ed</span>
+    </label>
+  </div>
+</div>
+
+<!-- Monthly Rent Filter -->
+<div class="filter-group">
+  <h3 class="filter-heading">Monthly Rent Range</h3>
+  <div class="rent-inputs">
+    <input 
+      type="number" 
+      name="max_rent" 
+      placeholder="Max rent (₹)" 
+      class="rent-input"
+      value="{{ applied_filters.max_rent if applied_filters.max_rent else '' }}">
+  </div>
+</div>

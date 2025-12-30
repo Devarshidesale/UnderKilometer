@@ -314,6 +314,209 @@
   width: 100%;
 }
 
+/* Filter Form Container */
+.filter-form-container {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.filter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Filter Group */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.filter-heading {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--dl-color-theme-primary2);
+}
+
+/* Radio Button Styling */
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 16px;
+  background-color: white;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.radio-label:hover {
+  border-color: var(--dl-color-theme-primary2);
+  background-color: #fff5f0;
+}
+
+.radio-label input[type="radio"] {
+  margin-right: 8px;
+  cursor: pointer;
+  accent-color: var(--dl-color-theme-primary2);
+}
+
+.radio-label input[type="radio"]:checked + span {
+  font-weight: 600;
+  color: var(--dl-color-theme-primary2);
+}
+
+.radio-label span {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Checkbox Styling */
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 16px;
+  background-color: white;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.checkbox-label:hover {
+  border-color: var(--dl-color-theme-primary2);
+  background-color: #fff5f0;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 8px;
+  cursor: pointer;
+  accent-color: var(--dl-color-theme-primary2);
+}
+
+.checkbox-label input[type="checkbox"]:checked + span {
+  font-weight: 600;
+  color: var(--dl-color-theme-primary2);
+}
+
+.checkbox-label span {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Rent Input Styling */
+.rent-inputs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.rent-input {
+  flex: 1;
+  min-width: 150px;
+  padding: 10px 14px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.rent-input:focus {
+  outline: none;
+  border-color: var(--dl-color-theme-primary2);
+}
+
+.rent-separator {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Filter Buttons */
+.filter-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn-apply,
+.btn-reset {
+  flex: 1;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-apply {
+  border: 2px solid #d1d1d1;
+  background-color: white;
+  color: black;
+}
+
+.btn-apply:hover {
+  background-color: var(--dl-color-theme-primary2);
+  border: 1px solid white;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--dl-color-theme-primary2);
+}
+
+.btn-reset {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 2px solid #ddd;
+}
+
+.btn-reset:hover {
+  background-color: #e0e0e0;
+  border-color: #bbb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .radio-group,
+  .checkbox-group {
+    flex-direction: column;
+  }
+
+  .rent-inputs {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .rent-input {
+    width: 100%;
+  }
+
+  .filter-buttons {
+    flex-direction: column;
+  }
+}
 /* card styling */ 
 .card {
   margin-bottom: 0.6rem;

@@ -1,9 +1,9 @@
 <div class="card">
   <div class="card-details">
     <p class="text-title">{{i["accommodation_name"]}}</p>
-    <strong>{{i["overall_monthly_rent"]}}</strong>
-    <p>{{i["distance"]}}</p>
-    <span>student contact : {{i["phone_number"]}}</span>
+    <strong>₹ {{i["overall_monthly_rent"]}}</strong>
+    <p>Distance: {{i["distance"]}}km</p>
+    <span>student contact: {{i["phone_number"]}}</span>
   </div>
   <a href="{{ url_for('get_accommodation_details', accom_id=i['id']) }}" class="card-button">More info</a>
 </div>

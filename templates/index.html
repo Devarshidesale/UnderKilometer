@@ -156,6 +156,7 @@
                   </span>
                 </div>
               </div>
+              
               <!-- ENHANCED FILTER SECTION -->
               <div class="desktop-thq-strategysection-elm">
                 <div class="desktop-thq-header-elm1">
@@ -167,15 +168,27 @@
                   </div>
                 </div>
 
-                <!-- Filter Grid Container -->
-                <div class="filter-grid-container">
-                  <form method="get" action="{{ url_for('index') }}">
+                <!-- Filter Form Container -->
+                <div class="filter-form-container">
+                  <form method="POST" action="{{ url_for('index') }}" class="filter-form">
+                    {% include 'filters.html' %}
                     
-
+                    <!-- Amenities Filter -->
+                    {% include 'amenities.html' %}
+                    
+                    <!-- Filter Buttons -->
+                    <div class="filter-buttons">
+                      <button type="submit" class="btn-apply">Apply Filters</button>
+                      <button type="button" class="btn-reset" onclick="window.location.href='{{ url_for('index') }}'">
+                        Clear All
+                      </button>
+                    </div>
                   </form>
                 </div>
               </div>
               <!-- /end ENHANCED FILTER SECTION -->
+
+              
               <div class="desktop-thq-colorsection-elm">
                 <div class="desktop-thq-header-elm2">
                   <div class="desktop-thq-title-elm2">
