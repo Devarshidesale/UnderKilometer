@@ -25,9 +25,9 @@ def load_accommodations(filters=None):
                 params['distance'] = float(distance)
 
         # Accommodation type filter
-        if filters.get('accommodation_type'):
-            query += " AND accommodation_type = :accommodation_type"
-            params['accommodation_type'] = filters['accommodation_type']
+        if filters.get('accomodation_type'):
+            query += " AND accomodation_type = :accomodation_type"
+            params['accomodation_type'] = filters['accomodation_type']
 
         # Gender filter
         if filters.get('gender_type'):
@@ -89,8 +89,8 @@ def index():
         if request.form.get('distance'):
             filters['distance'] = request.form.get('distance')
 
-        if request.form.get('accommodation_type'):
-            filters['accommodation_type'] = request.form.get('accommodation_type')
+        if request.form.get('accomodation_type'):
+            filters['accomodation_type'] = request.form.get('accomodation_type')
 
         if request.form.get('gender_type'):
             filters['gender_type'] = request.form.get('gender_type')

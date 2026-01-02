@@ -16,13 +16,10 @@
     <!-- Navigation Sidebar -->
     <nav class="navigation">
       <div class="logo-section">
-        <h2 style="font-size: 1.5rem; color: var(--dl-color-theme-primary2); font-weight: 600;">UnderKilometer</h2>
+        <h2 style="font-size: 1.5rem; color: black; font-weight: 800;">UnderKilometer</h2>
       </div>
       <div class="nav-links">
         <a href="/" class="nav-link">Back to Homepage</a>
-        <a href="#details" class="nav-link">Details</a>
-        <a href="#amenities" class="nav-link">Amenities</a>
-        <a href="#stats" class="nav-link">Quick Stats</a>
       </div>
     </nav>
 
@@ -40,6 +37,10 @@
         <div class="info-card" id="details">
           <h3 class="card-title">Property Information</h3>
           <ul class="info-list">
+            <li class="info-item">
+              <span class="info-label">accommodation:</span>
+              <span>{{accom_param.accomodation_type}}</span>
+            </li>
             <li class="info-item">
               <span class="info-label">Room Type:</span>
               <span>{{accom_param.room_type}}</span>

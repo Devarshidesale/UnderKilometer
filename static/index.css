@@ -184,6 +184,26 @@
   border-width: 0 0 0 1px;
   flex-direction: column;
 }
+/* .desktop-thq-introsection-elm::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -40rem;
+  width: 50rem;
+  height: 50rem;
+
+  background-image: url("img.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  z-index: 100;
+  opacity: 0.8;
+}
+
+.desktop-thq-introsection-elm > * {
+  position: relative;
+  z-index: 0;
+} */
 
 .desktop-thq-content-elm {
   gap: 32px;
@@ -223,10 +243,6 @@
   flex-direction: column;
 }
 
-/* Filter section */
-
-/* END Filter section */
-
 .desktop-thq-header-elm1 {
   gap: 32px;
   display: flex;
@@ -251,6 +267,10 @@
 }
 
 .desktop-thq-text-elm24 {
+  color: var(--dl-color-theme-primary2);
+}
+
+#About-us, #Filters, #Accommodations{
   color: black;
 }
 
