@@ -184,26 +184,6 @@
   border-width: 0 0 0 1px;
   flex-direction: column;
 }
-/* .desktop-thq-introsection-elm::before {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: -40rem;
-  width: 50rem;
-  height: 50rem;
-
-  background-image: url("img.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-
-  z-index: 100;
-  opacity: 0.8;
-}
-
-.desktop-thq-introsection-elm > * {
-  position: relative;
-  z-index: 0;
-} */
 
 .desktop-thq-content-elm {
   gap: 32px;
@@ -631,4 +611,220 @@
   font-style: normal;
   font-weight: 500;
   line-height: 24px;
+}
+/* ============================= */
+/* GLOBAL RESPONSIVE SAFETY NET */
+/* ============================= */
+* {
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+/* Prevent horizontal scroll */
+body {
+  overflow-x: hidden;
+}
+
+/* ============================= */
+/* LARGE TABLETS (≤ 1024px) */
+/* ============================= */
+@media (max-width: 1024px) {
+
+  /* Main layout width control */
+  .desktop-thq-main-elm1,
+  .desktop-thq-strategysection-elm,
+  .desktop-thq-colorsection-elm {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Sidebar slightly smaller */
+  .desktop-thq-navigation-elm {
+    width: 220px;
+  }
+
+  /* Intro content scaling */
+  .desktop-thq-text-elm18 {
+    width: 100%;
+  }
+
+  .desktop-thq-text-elm19 {
+    width: 100%;
+  }
+
+  /* Hero text scaling */
+  .desktop-thq-hero-text-elm {
+    font-size: 5rem;
+  }
+
+  /* Cards grid */
+  .accomodation-card-section {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+/* ============================= */
+/* TABLETS & SMALL LAPTOPS (≤ 768px) */
+/* ============================= */
+@media (max-width: 768px) {
+
+  /* Convert sidebar layout */
+  .desktop-thq-desktop-elm {
+    flex-direction: column;
+  }
+
+  /* Top navigation instead of sidebar */
+  .desktop-thq-navigation-elm {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+
+  /* Navigation links inline */
+  .desktop-thq-contents-elm {
+    flex-direction: row;
+    gap: 16px;
+    padding: 0;
+    border: none;
+  }
+
+  .desktop-thq-link-elm1,
+  .desktop-thq-link-elm2,
+  .desktop-thq-link-elm3 {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Hide numbering for cleaner UI */
+  .desktop-thq-text-elm11,
+  .desktop-thq-text-elm13,
+  .desktop-thq-text-elm15 {
+    display: none;
+  }
+
+  /* Contact Us hidden (optional) */
+  .desktop-thq-contactus-elm {
+    display: none;
+  }
+
+  /* Hero section */
+  .desktop-thq-hero-text-elm {
+    position: absolute;
+    font-size: 3rem;
+    margin: 16px;
+    text-align: center;
+  }
+
+  .desktop-thq-hero-elm {
+    height: 40vh;
+  }
+
+  /* Intro section stack */
+  .desktop-thq-content-elm {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .desktop-thq-text-elm18,
+  .desktop-thq-text-elm19 {
+    width: 100%;
+  }
+
+  /* Section paddings */
+  .desktop-thq-introsection-elm,
+  .desktop-thq-strategysection-elm,
+  .desktop-thq-colorsection-elm {
+    padding: 24px 16px;
+    border-left: none;
+  }
+
+  /* Filters layout */
+  .radio-group,
+  .checkbox-group {
+    flex-direction: column;
+  }
+
+  .filter-buttons {
+    flex-direction: column;
+  }
+
+  /* Cards grid */
+  .accomodation-card-section {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 16px;
+  }
+
+  /* Card scaling */
+  .card {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* ============================= */
+/* MOBILE PHONES (≤ 480px) */
+/* ============================= */
+@media (max-width: 480px) {
+
+  /* Navigation compact */
+  .desktop-thq-navigation-elm {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .desktop-thq-contents-elm {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  /* Hero text small */
+  .desktop-thq-hero-text-elm {
+    font-size: 2.2rem;
+  }
+
+  /* Section headers */
+  .desktop-thq-text-elm18,
+  .desktop-thq-text-elm23,
+  .desktop-thq-text-elm26 {
+    font-size: 1.8rem;
+  }
+
+  /* Paragraphs */
+  .desktop-thq-text-elm19 {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  /* Filter groups */
+  .filter-group {
+    padding: 12px;
+  }
+
+  /* Buttons full width */
+  .btn-apply,
+  .btn-reset {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  /* Cards */
+  .card {
+    padding: 1.2rem;
+  }
+
+  .text-title {
+    font-size: 1.2rem;
+  }
+
+  .card-button {
+    width: 80%;
+  }
 }
