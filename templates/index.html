@@ -98,7 +98,7 @@
 
       <div class="desktop-container1">
         <div class="desktop-thq-desktop-elm">
-          <div class="desktop-thq-navigation-elm">
+          <!-- <div class="desktop-thq-navigation-elm">
             <div class="desktop-thq-logo-elm"></div>
             <div class="desktop-thq-contents-elm">
               <div class="desktop-thq-link-elm1">
@@ -119,10 +119,22 @@
                 <span class="desktop-thq-text-elm17 Links">Contact Us</span>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="desktop-thq-main-elm1">
             <div class="desktop-thq-hero-text-elm">UnderKilometer</div>
-            <img class="desktop-thq-hero-elm" src="{{ url_for('static', filename='assets/download_bg.png') }}"></img>
+            <!-- <img class="desktop-thq-hero-elm" src="{{ url_for('static', filename='assets/download_bg.png') }}"></img> -->
+            <section class="scroll-hero">
+              <canvas id="heroCanvas"></canvas>
+              <div class="hero-text">
+                <h1 id="heroTitle">UnderKilometer</h1>
+                <p id="heroSubtitle">Find homes near your college</p>
+              </div>
+            </section>
+            <!-- Spacer to control scroll length -->
+            <div class="scroll-spacer"></div>
+            <script src="{{ url_for('static', filename='hero-scroll.js') }}"></script>
+
+            
             <div class="desktop-thq-main-elm2">
               <div class="desktop-thq-introsection-elm">
                 <div class="desktop-thq-content-elm">
