@@ -121,8 +121,41 @@
             </div>
           </div> -->
           <div class="desktop-thq-main-elm1">
-            <div class="desktop-thq-hero-text-elm">UnderKilometer</div>
-            <img class="desktop-thq-hero-elm" src="{{ url_for('static', filename='assets/download_bg.png') }}"></img>
+            <!-- SCROLL-DRIVEN HERO ANIMATION SECTION -->
+            <section id="hero-scroll-section" class="hero-scroll-section">
+              <!-- Loading Overlay -->
+              <div id="hero-loader" class="hero-loader">
+                <div class="hero-loader-content">
+                  <span class="hero-loader-text">Loading Experience...</span>
+                  <div class="hero-loading-bar-container">
+                    <div id="hero-loading-bar" class="hero-loading-bar"></div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Canvas for Frame Animation -->
+              <canvas id="hero-canvas" class="hero-canvas"></canvas>
+              
+              <!-- Text Overlays -->
+              <div class="hero-text-container">
+                <h1 id="hero-text-title" class="hero-text hero-text-title">UnderKilometer</h1>
+                <p id="hero-text-about" class="hero-text hero-text-about">
+                  Your trusted platform for finding student accommodation near campus. 
+                  Verified listings, real reviews, transparent pricing.
+                </p>
+                <p id="hero-text-punch" class="hero-text hero-text-punch">Find Your Home Away From Home</p>
+              </div>
+              
+              <!-- Scroll Indicator -->
+              <div class="hero-scroll-indicator">
+                <span>Scroll to explore</span>
+                <div class="hero-scroll-arrow"></div>
+              </div>
+            </section>
+            
+            <!-- Spacer to create scroll area for animation -->
+            <div id="hero-scroll-spacer" class="hero-scroll-spacer"></div>
+            <!-- END HERO ANIMATION SECTION -->
             
             <div class="desktop-thq-main-elm2">
               <div class="desktop-thq-introsection-elm">
@@ -215,5 +248,8 @@
       </div>
       <link rel="canonical" href="https://untitled-s4rz3p.teleporthq.app/" />
     </div>
+    
+    <!-- Hero Animation Script -->
+    <script src="{{ url_for('static', filename='hero-animation.js') }}"></script>
   </body>
 </html>
