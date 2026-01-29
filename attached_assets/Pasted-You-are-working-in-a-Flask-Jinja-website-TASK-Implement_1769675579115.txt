@@ -1,0 +1,90 @@
+You are working in a Flask + Jinja website.
+
+TASK:
+Implement a scroll-driven hero animation using an existing hero section.
+The animation must behave like a smooth video scrub controlled by scroll.
+
+REQUIREMENTS (DO NOT SIMPLIFY):
+
+1. FRAME SEQUENCE (CORE)
+- There are 192 PNG frames located in:
+  static/underkilometer-frames/
+- File naming format:
+  exgif-frame-001.png
+  exgif-frame-002.png
+  ...
+  exgif-frame-192.png
+
+- As the user scrolls DOWN:
+  → Frames must change sequentially
+  → Animation must be smooth (60fps feel)
+  → No flickering, no reloading on scroll
+- Use requestAnimationFrame or scroll-based interpolation
+- Frames must be PRELOADED before animation begins
+
+2. HERO SECTION INTEGRATION
+- The existing hero background element class is:
+  .desktop-thq-hero-elm
+- Replace the hero background behavior using a <canvas>
+- The hero section must:
+  - Stay fixed (or sticky) while frames are animating
+  - Take up 100vh
+  - Prevent normal page scrolling until frames finish
+
+3. TEXT ANIMATION SYNCHRONIZED WITH SCROLL
+- Inside the hero, add three text elements:
+  a) Main title (large heading)
+  b) About-section short paragraph
+  c) One single-line punch sentence
+
+- These texts must:
+  - Fade in and fade out smoothly (opacity + transform)
+  - Change based on scroll / frame ranges
+  - Be perfectly synchronized with the frame animation
+
+EXAMPLE TIMING (use proportional logic, not hard pixel values):
+- Frames 0–60:
+    Show title text
+- Frames 61–120:
+    Fade title out
+    Fade in about text
+- Frames 121–170:
+    Fade in final sentence
+- Frames 171–192:
+    Fade everything out
+
+4. SCROLL RELEASE AFTER ANIMATION
+- Once frame 192 is reached:
+  - Hero section must scroll away naturally
+  - Normal page scroll behavior must resume
+  - Following sections of the site must become visible
+
+5. SMOOTHNESS & PERFORMANCE
+- Use canvas for rendering frames (do NOT use img tags)
+- Resize canvas properly on window resize
+- Avoid layout shifts
+- Mobile friendly but desktop-first
+- No external libraries unless absolutely necessary
+
+6. OUTPUT EXPECTED
+You must:
+- Modify HTML only where necessary
+- Add clean CSS (responsive, minimal)
+- Add ONE JavaScript file to handle:
+  - Frame preloading
+  - Scroll → frame mapping
+  - Text fade animation
+- Code must be readable and commented
+- Respect existing class names and styling wherever possible
+
+7. CONSTRAINTS
+- Do NOT break Flask routing or Jinja templates
+- Do NOT hardcode absolute URLs
+- Assume site is served from Flask static folder
+- Maintain current visual styling outside hero section
+
+DELIVERABLES:
+- Updated hero HTML markup
+- Required CSS additions
+- A complete JS implementation for scroll-based animation
+- Explanation of how the scroll lock and release is handled

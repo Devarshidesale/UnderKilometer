@@ -18,44 +18,6 @@
   background-color: var(--dl-color-background-background1);
 }
 
-.scroll-hero {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  background: black;
-}
-
-#heroCanvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.hero-text {
-  position: absolute;
-  bottom: 15%;
-  left: 10%;
-  color: white;
-  z-index: 10;
-  max-width: 600px;
-}
-
-.hero-text h1 {
-  font-size: 4rem;
-}
-
-.hero-text p {
-  font-size: 1.2rem;
-  opacity: 0.85;
-}
-
-/* Scroll length controller */
-.scroll-spacer {
-  height: 800vh; /* controls animation smoothness */
-}
-
 
 /* .desktop-thq-navigation-elm {
   gap: 24px;
