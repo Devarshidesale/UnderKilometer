@@ -2,7 +2,7 @@
  * Scroll-Driven Hero Animation
  * 
  * This script handles:
- * 1. Preloading 192 frame images
+ * 1. Preloading frame images (041-166)
  * 2. Wheel/touch events mapped to frame changes (not page scroll)
  * 3. Text fade animations synchronized with frames
  * 4. Scroll lock during animation and release after completion
@@ -12,7 +12,9 @@
   'use strict';
 
   const CONFIG = {
-    totalFrames: 192,
+    startFrame: 41,
+    endFrame: 166,
+    totalFrames: 126,
     frameBasePath: '/static/underkilometer-frames/',
     framePrefix: 'ezgif-frame-',
     frameExtension: '.jpg',
@@ -32,9 +34,9 @@
   };
 
   const TEXT_RANGES = {
-    title: { fadeIn: [0, 30], visible: [30, 60], fadeOut: [60, 90] },
-    about: { fadeIn: [60, 90], visible: [90, 120], fadeOut: [120, 150] },
-    punch: { fadeIn: [120, 150], visible: [150, 170], fadeOut: [170, 192] }
+    title: { fadeIn: [0, 25], visible: [25, 45], fadeOut: [45, 60] },
+    about: { fadeIn: [45, 60], visible: [60, 85], fadeOut: [85, 100] },
+    punch: { fadeIn: [85, 100], visible: [100, 115], fadeOut: [115, 126] }
   };
 
   function init() {
@@ -78,7 +80,7 @@
       let loadedCount = 0;
       const loadingBar = document.getElementById('hero-loading-bar');
 
-      for (let i = 1; i <= CONFIG.totalFrames; i++) {
+      for (let i = CONFIG.startFrame; i <= CONFIG.endFrame; i++) {
         const img = new Image();
         const frameNum = String(i).padStart(3, '0');
         img.src = `${CONFIG.frameBasePath}${CONFIG.framePrefix}${frameNum}${CONFIG.frameExtension}`;
@@ -103,7 +105,7 @@
           }
         };
         
-        state.frames[i - 1] = img;
+        state.frames[i - CONFIG.startFrame] = img;
       }
     });
   }
