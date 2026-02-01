@@ -781,6 +781,8 @@
   pointer-events: none;
   width: 90%;
   max-width: 900px;
+  box-sizing: border-box;
+  padding: 0 16px;
 }
 
 /* Hero Text Elements */
@@ -791,15 +793,15 @@
   transition: opacity 0.1s ease, transform 0.1s ease;
   text-shadow: 0 2px 20px rgba(0,0,0,0.5);
   will-change: opacity, transform;
-  padding: 0 5%;
-  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 .hero-text-title {
-  font-size: clamp(2rem, 8vw, 7rem);
+  font-size: clamp(1.75rem, 7vw, 6rem);
   font-weight: 700;
   letter-spacing: -0.02em;
-  margin: 0 0 0.5em 0;
+  margin: 0 0 0.3em 0;
   font-family: 'Inter', sans-serif;
   line-height: 1.1;
   word-wrap: break-word;
@@ -807,19 +809,19 @@
 }
 
 .hero-text-about {
-  font-size: clamp(0.875rem, 2vw, 1.35rem);
+  font-size: clamp(0.85rem, 2.5vw, 1.35rem);
   font-weight: 300;
-  line-height: 1.7;
-  max-width: 90%;
-  margin: 0 auto 0.75em auto;
+  line-height: 1.6;
+  max-width: 100%;
+  margin: 0 auto 0.5em auto;
   font-family: 'Inter', sans-serif;
-  padding: 0 2%;
+  padding: 0;
 }
 
 .hero-text-punch {
-  font-size: clamp(1.1rem, 3.5vw, 2.5rem);
+  font-size: clamp(1rem, 3vw, 2.25rem);
   font-weight: 600;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   font-family: 'Inter', sans-serif;
   margin: 0;
   line-height: 1.3;
@@ -984,30 +986,25 @@ body.hero-scroll-locked {
 /* Mobile Small (320px - 479px) */
 @media (max-width: 479px) {
   .hero-text-container {
-    width: 100%;
-    padding: 0 12px;
-    top: 50%;
-  }
-  
-  .hero-text {
-    padding: 0 3%;
+    width: 94%;
+    padding: 0 10px;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
   
   .hero-text-title {
-    font-size: 2rem;
-    margin-bottom: 0.4em;
+    font-size: 1.75rem;
+    margin-bottom: 0.25em;
     letter-spacing: -0.01em;
   }
   
   .hero-text-about {
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     line-height: 1.5;
-    max-width: 100%;
-    padding: 0 2%;
   }
   
   .hero-text-punch {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     letter-spacing: 0.01em;
   }
   
@@ -1036,19 +1033,20 @@ body.hero-scroll-locked {
 /* Extra Small Devices (below 320px) */
 @media (max-width: 319px) {
   .hero-text-container {
-    padding: 0 8px;
+    width: 96%;
+    padding: 0 6px;
   }
   
   .hero-text-title {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
   
   .hero-text-about {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
   
   .hero-text-punch {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 
