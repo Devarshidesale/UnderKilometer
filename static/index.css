@@ -18,49 +18,240 @@
   background-color: var(--dl-color-background-background1);
 }
 
-
-/* .desktop-thq-navigation-elm {
-  gap: 24px;
-  width: 250px;
-  height: 300px;
-  display: flex;
-  padding: 0 0 30px;
-  align-items: flex-start;
-  flex-shrink: 0;
-  flex-direction: column;
-  background-color: var(--dl-color-background-background1);
-} */
-
-/* .desktop-thq-logo-elm {
-  gap: 10px;
-  display: flex;
-  padding: 30px 20px 30px 32px;
-  overflow: hidden;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: rgba(0, 0, 0, 0.10000000149011612);
-  border-style: solid;
-  border-width: 0 0 1px;
-  flex-direction: column;
-  justify-content: center;
-} */
-
-/* .desktop-thq-contents-elm {
-  gap: 10px;
-  display: flex;
-  padding: 0 20px 30px 32px;
-  align-self: stretch;
-  align-items: flex-start;
-  border-color: rgba(0, 0, 0, 0.10000000149011612);
-  border-style: solid;
-  border-width: 0 0 1px;
-  flex-direction: column;
+/* ============================= */
+/* TRANSPARENT NAVIGATION BAR */
+/* ============================= */
+.hero-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.desktop-thq-link-elm1 {
+.hero-navbar.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.hero-navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
   display: flex;
-  align-items: flex-start;
-} */
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hero-navbar-logo {
+  flex-shrink: 0;
+}
+
+.hero-navbar-brand {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-navbar-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.hero-navbar-link {
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.hero-navbar-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 80%;
+  height: 2px;
+  background: white;
+  transition: transform 0.3s ease;
+}
+
+.hero-navbar-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.hero-navbar-link:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* ============================= */
+/* HERO TEXT POSITIONING FIX */
+/* ============================= */
+.hero-text-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  pointer-events: none;
+  text-align: center;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.hero-title {
+  color: white;
+  margin: 0;
+  font-size: clamp(2.5rem, 8vw, 7rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.hero-title.is-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-title.is-exit {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+/* ============================= */
+/* HERO SCROLL INDICATOR */
+/* ============================= */
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.3s ease;
+}
+
+.hero-scroll-arrow {
+  width: 24px;
+  height: 24px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(-45deg);
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0) rotate(-45deg);
+  }
+  40% {
+    transform: translateY(-10px) rotate(-45deg);
+  }
+  60% {
+    transform: translateY(-5px) rotate(-45deg);
+  }
+}
+
+/* ============================= */
+/* HERO SECTION */
+/* ============================= */
+.hero-scroll-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+.hero-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hero-scroll-spacer {
+  height: 300vh;
+}
+
+/* Loading State */
+.hero-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  transition: opacity 0.3s ease;
+}
+
+.hero-loader-content {
+  text-align: center;
+  color: white;
+}
+
+.hero-loader-text {
+  display: block;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.hero-loading-bar-container {
+  width: 300px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.hero-loading-bar {
+  height: 100%;
+  background: var(--dl-color-theme-primary2, #f35f00);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+/* Scroll Lock */
+body.hero-scroll-locked {
+  overflow: hidden;
+}
+
+/* ============================= */
+/* EXISTING STYLES */
+/* ============================= */
 
 .desktop-thq-text-elm10 {
   color: var(--dl-color-text-paragraph1);
@@ -114,15 +305,6 @@
   line-height: 120.00000476837158%;
 }
 
-/* .desktop-thq-contactus-elm {
-  gap: 50px;
-  display: flex;
-  padding: 0 20px 0 32px;
-  align-self: stretch;
-  align-items: flex-start;
-  flex-direction: column;
-} */
-
 .desktop-thq-text-elm16 {
   display: flex;
   align-items: flex-start;
@@ -143,59 +325,6 @@
   align-items: flex-start;
   flex-shrink: 0;
   flex-direction: column;
-}
-
-.desktop-thq-hero-text-elm{
-    position:absolute;
-    z-index:10;
-    margin-left:3rem;
-    margin-top:6rem;
-    color:white;
-    font-size: 7rem;
-    font-weight: 400;
-}
-
-.hero-text-container {
-  position: relative;
-  top:20%;
-  left:28%;
-  z-index: 10;
-  padding: 4rem;
-  pointer-events: none;
-  color: ;
-}
-.hero-title {
-  color:white;
-  margin: 0;
-  font-size: clamp(3rem, 6vw, 6.5rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-}
-@media (max-width: 768px) {
-  .hero-overlay {
-    padding: 2rem 1.5rem;
-  }
-
-  .hero-title {
-    font-size: clamp(2.2rem, 8vw, 3.2rem);
-  }
-
-  .hero-punch {
-    font-size: 1rem;
-  }
-}
-
-
-.desktop-thq-hero-elm {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  overflow: hidden;
-  position: relative;
-  align-self: stretch;
-  align-items: flex-start;
-  flex-shrink: 0;
 }
 
 .desktop-thq-main-elm2 {
@@ -530,26 +659,6 @@
   border-color: #bbb;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .radio-group,
-  .checkbox-group {
-    flex-direction: column;
-  }
-
-  .rent-inputs {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .rent-input {
-    width: 100%;
-  }
-
-  .filter-buttons {
-    flex-direction: column;
-  }
-}
 /* card styling */ 
 .card {
   margin-bottom: 0.6rem;
@@ -645,6 +754,7 @@
   font-weight: 500;
   line-height: 24px;
 }
+
 /* ============================= */
 /* GLOBAL RESPONSIVE SAFETY NET */
 /* ============================= */
@@ -674,11 +784,6 @@ body {
     max-width: 100%;
   }
 
-  /* Sidebar slightly smaller */
-  .desktop-thq-navigation-elm {
-    width: 220px;
-  }
-
   /* Intro content scaling */
   .desktop-thq-text-elm18 {
     width: 100%;
@@ -689,8 +794,8 @@ body {
   }
 
   /* Hero text scaling */
-  .desktop-thq-hero-text-elm {
-    font-size: 5rem;
+  .hero-title {
+    font-size: clamp(2rem, 7vw, 5rem);
   }
 
   /* Cards grid */
@@ -704,59 +809,42 @@ body {
 /* ============================= */
 @media (max-width: 768px) {
 
+  /* Navigation Bar */
+  .hero-navbar-container {
+    padding: 0 1rem;
+  }
+
+  .hero-navbar-brand {
+    font-size: 1.2rem;
+  }
+
+  .hero-navbar-links {
+    gap: 1rem;
+  }
+
+  .hero-navbar-link {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+
   /* Convert sidebar layout */
   .desktop-thq-desktop-elm {
     flex-direction: column;
   }
 
-  /* Top navigation instead of sidebar */
-  .desktop-thq-navigation-elm {
-    width: 100%;
-    height: auto;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-  }
-
-  /* Navigation links inline */
-  .desktop-thq-contents-elm {
-    flex-direction: row;
-    gap: 16px;
-    padding: 0;
-    border: none;
-  }
-
-  .desktop-thq-link-elm1,
-  .desktop-thq-link-elm2,
-  .desktop-thq-link-elm3 {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  /* Hide numbering for cleaner UI */
-  .desktop-thq-text-elm11,
-  .desktop-thq-text-elm13,
-  .desktop-thq-text-elm15 {
-    display: none;
-  }
-
-  /* Contact Us hidden (optional) */
-  .desktop-thq-contactus-elm {
-    display: none;
-  }
-
   /* Hero section */
-  .desktop-thq-hero-text-elm {
-    position: absolute;
-    font-size: 3rem;
-    margin: 16px;
-    text-align: center;
+  .hero-title {
+    font-size: clamp(1.8rem, 6vw, 3.5rem);
   }
 
-  .desktop-thq-hero-elm {
-    height: 40vh;
+  .hero-scroll-indicator {
+    bottom: 1rem;
+    font-size: 0.8rem;
+  }
+
+  .hero-scroll-arrow {
+    width: 20px;
+    height: 20px;
   }
 
   /* Intro section stack */
@@ -807,20 +895,35 @@ body {
 /* ============================= */
 @media (max-width: 480px) {
 
-  /* Navigation compact */
-  .desktop-thq-navigation-elm {
-    flex-wrap: wrap;
-    gap: 12px;
+  /* Navigation Bar */
+  .hero-navbar-container {
+    padding: 0 0.75rem;
   }
 
-  .desktop-thq-contents-elm {
-    width: 100%;
-    justify-content: space-around;
+  .hero-navbar-brand {
+    font-size: 1rem;
   }
 
-  /* Hero text small */
-  .desktop-thq-hero-text-elm {
-    font-size: 2.2rem;
+  .hero-navbar-links {
+    gap: 0.5rem;
+  }
+
+  .hero-navbar-link {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.6rem;
+  }
+
+  /* Hero text */
+  .hero-title {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+  }
+
+  .hero-text-container {
+    width: 95%;
+  }
+
+  .hero-scroll-indicator span {
+    font-size: 0.75rem;
   }
 
   /* Section headers */
