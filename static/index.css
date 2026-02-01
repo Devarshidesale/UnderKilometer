@@ -155,6 +155,38 @@
     font-weight: 400;
 }
 
+.hero-text-container {
+  position: relative;
+  top:20%;
+  left:28%;
+  z-index: 10;
+  padding: 4rem;
+  pointer-events: none;
+  color: ;
+}
+.hero-title {
+  color:white;
+  margin: 0;
+  font-size: clamp(3rem, 6vw, 6.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+@media (max-width: 768px) {
+  .hero-overlay {
+    padding: 2rem 1.5rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.2rem, 8vw, 3.2rem);
+  }
+
+  .hero-punch {
+    font-size: 1rem;
+  }
+}
+
+
 .desktop-thq-hero-elm {
   width: 100vw;
   height: 100vh;

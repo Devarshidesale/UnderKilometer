@@ -34,10 +34,11 @@
   };
 
   const TEXT_RANGES = {
-    title: { fadeIn: [0, 25], visible: [25, 45], fadeOut: [45, 60] },
-    about: { fadeIn: [45, 60], visible: [60, 85], fadeOut: [85, 100] },
-    punch: { fadeIn: [85, 100], visible: [100, 115], fadeOut: [115, 126] }
+    title: { enter: 0, exit: 60 },
+    about: { enter: 45, exit: 100 },
+    punch: { enter: 85, exit: 126 }
   };
+
 
   function init() {
     state.heroSection = document.getElementById('hero-scroll-section');
@@ -238,26 +239,46 @@
     if (punchEl) animateText(punchEl, frameIndex, TEXT_RANGES.punch);
   }
 
-  function animateText(element, frame, range) {
-    let opacity = 0;
-    let translateY = 20;
+  function updateTextAnimations(frameIndex) {
+    updateTextState(
+      document.getElementById('hero-text-title'),
+      frameIndex,
+      TEXT_RANGES.title
+    );
 
-    if (frame >= range.fadeIn[0] && frame < range.fadeIn[1]) {
-      const progress = (frame - range.fadeIn[0]) / (range.fadeIn[1] - range.fadeIn[0]);
-      opacity = progress;
-      translateY = 20 * (1 - progress);
-    } else if (frame >= range.visible[0] && frame < range.visible[1]) {
-      opacity = 1;
-      translateY = 0;
-    } else if (frame >= range.fadeOut[0] && frame <= range.fadeOut[1]) {
-      const progress = (frame - range.fadeOut[0]) / (range.fadeOut[1] - range.fadeOut[0]);
-      opacity = 1 - progress;
-      translateY = -20 * progress;
+    updateTextState(
+      document.getElementById('hero-text-about'),
+      frameIndex,
+      TEXT_RANGES.about
+    );
+
+    updateTextState(
+      document.getElementById('hero-text-punch'),
+      frameIndex,
+      TEXT_RANGES.punch
+    );
+  }
+
+  function updateTextState(el, frame, range) {
+    if (!el) return;
+
+    el.classList.remove('is-enter', 'is-active', 'is-exit');
+
+    if (frame < range.enter) return;
+
+    if (frame >= range.enter && frame < range.exit) {
+      el.classList.add('is-active');
     }
 
-    element.style.opacity = opacity;
-    element.style.transform = `translateY(${translateY}px)`;
+    if (frame >= range.exit) {
+      el.classList.add('is-exit');
+    }
+
+    if (frame >= range.enter && frame < range.enter + 10) {
+      el.classList.add('is-enter');
+    }
   }
+
 
   function releaseScroll() {
     window.removeEventListener('wheel', handleWheel);
