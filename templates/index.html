@@ -114,7 +114,6 @@
               <!-- Scroll Indicator -->
               <div class="hero-scroll-indicator">
                 <span>Scroll to explore</span>
-                <div class="hero-scroll-arrow"></div>
               </div>
             </section>
             
@@ -170,11 +169,11 @@
                 <!-- Filter Form Container -->
                 <div class="filter-form-container">
                   <form method="POST" action="{{ url_for('index') }}" class="filter-form">
-                    {% include 'filters.html' %}
-                    
-                    <!-- Amenities Filter -->
-                    {% include 'amenities.html' %}
-                    
+                    <div class="filter-groups-row">
+                      {% include 'filters.html' %}
+                      <!-- Amenities Filter -->
+                      {% include 'amenities.html' %}
+                    </div>
                     <!-- Filter Buttons -->
                     <div class="filter-buttons">
                       <button type="submit" class="btn-apply">Apply Filters</button>
