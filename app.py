@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from database import engine
 from sqlalchemy import text
 
 app = Flask(__name__)
+CORS(app)
 
 amenities_main_list = ['Wi-Fi','Washing Machine', 'Security (CCTV/Guard)', 'Personal Washroom', 'Kitchen', 'Mess/Tiffin']
 
@@ -55,9 +57,28 @@ def load_accommodations(filters=None):
         return result_all
 
 
-# Getting details of accommodation after clicking on the card on the main page
-@app.route('/details/<int:accom_id>')
-def get_accommodation_details(accom_id):
+# ──────────────────────────────────────────────
+# JSON API ENDPOINTS (consumed by React frontend)
+# ──────────────────────────────────────────────
+
+@app.route('/api/accommodations', methods=['GET', 'POST'])
+def api_accommodations():
+    """
+    GET  → return all accommodations
+    POST → accept JSON filter body, return filtered accommodations
+    """
+    filters = None
+
+    if request.method == 'POST':
+        filters = request.get_json(silent=True) or {}
+
+    accommodations = load_accommodations(filters if filters else None)
+    return jsonify(accommodations)
+
+
+@app.route('/api/accommodations/<int:accom_id>')
+def api_accommodation_details(accom_id):
+    """Return a single accommodation's full details as JSON"""
     query = """
         SELECT *
         FROM UnderKilometer_database
@@ -68,53 +89,11 @@ def get_accommodation_details(accom_id):
         accommodation = result.mappings().first()
 
     if accommodation is None:
-        return "Accommodation not found", 404
-        
-    available_amenities = accommodation['available_amenities'].split(',')
-    return render_template(
-        'details.html',
-        accom_param=accommodation,
-        amenity_param=available_amenities,
-    )
+        return jsonify({"error": "Accommodation not found"}), 404
 
+    accom_dict = dict(accommodation)
+    return jsonify(accom_dict)
 
-# filtering the accommodations 
-# Main route - handles both display and filtering
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    filters = {}
-
-    if request.method == 'POST':
-        # Collect all filter parameters
-        if request.form.get('distance'):
-            filters['distance'] = request.form.get('distance')
-
-        if request.form.get('accomodation_type'):
-            filters['accomodation_type'] = request.form.get('accomodation_type')
-
-        if request.form.get('gender_type'):
-            filters['gender_type'] = request.form.get('gender_type')
-
-        if request.form.get('min_rent'):
-            filters['min_rent'] = request.form.get('min_rent')
-
-        if request.form.get('max_rent'):
-            filters['max_rent'] = request.form.get('max_rent')
-
-        # Get amenities (can be multiple checkboxes)
-        amenities = request.form.getlist('amenities')
-        if amenities:
-            filters['amenities'] = amenities
-
-    # Load accommodations with or without filters
-    accommodations = load_accommodations(filters if filters else None)
-
-    return render_template(
-        'index.html',
-        accom_list=accommodations,
-        applied_filters=filters,
-        amenity_list=amenities_main_list
-    )
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
