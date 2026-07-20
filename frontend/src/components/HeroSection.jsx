@@ -11,9 +11,6 @@ const CONFIG = {
   scrollSensitivity: 2,
 };
 
-const TEXT_RANGES = {
-  title: { enter: 0, exit: 60 },
-};
 
 export default function HeroSection() {
   const canvasRef = useRef(null);
@@ -35,6 +32,7 @@ export default function HeroSection() {
     accumulatedDelta: 0,
     animFrameId: null,
     handleWheel: null,
+    handlePageWheel: null,
   });
 
   useEffect(() => {
@@ -85,22 +83,31 @@ export default function HeroSection() {
       ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
     }
 
-    /* ─── GSAP‑powered text animations ─── */
-    function updateTextAnimations(frameIndex) {
+    /* ─── Title visibility: show ONLY after all frames done, hide when scrolled back ─── */
+    function updateTitle(complete) {
       const titleEl = titleRef.current;
       if (!titleEl) return;
-
-      const range = TEXT_RANGES.title;
-      if (frameIndex >= range.enter && frameIndex < range.exit) {
-        gsap.to(titleEl, { opacity: 1, y: 0, duration: 0.3, overwrite: true });
-      } else if (frameIndex >= range.exit) {
-        gsap.to(titleEl, { opacity: 0, y: -20, duration: 0.3, overwrite: true });
+      if (complete) {
+        gsap.to(titleEl, { opacity: 1, y: 0, duration: 0.5, overwrite: true });
       } else {
-        gsap.to(titleEl, { opacity: 0, y: 20, duration: 0.3, overwrite: true });
+        gsap.to(titleEl, { opacity: 0, y: 20, duration: 0.25, overwrite: true });
       }
     }
 
-    /* ─── Release scroll after animation completes ─── */
+    /* ─── Lock scroll into the animation ─── */
+    function lockScroll() {
+      window.removeEventListener('wheel', s.handlePageWheel);
+      window.removeEventListener('wheel', s.handleWheel);
+      window.addEventListener('wheel', s.handleWheel, { passive: false });
+      document.body.classList.add('hero-scroll-locked');
+      heroSection.classList.remove('animation-complete');
+      if (spacerRef.current) spacerRef.current.style.display = '';
+      if (indicatorRef.current) {
+        gsap.to(indicatorRef.current, { opacity: 1, duration: 0.3 });
+      }
+    }
+
+    /* ─── Release scroll when animation reaches the end ─── */
     function releaseScroll() {
       window.removeEventListener('wheel', s.handleWheel);
       heroSection.classList.add('animation-complete');
@@ -110,11 +117,13 @@ export default function HeroSection() {
       if (indicatorRef.current) {
         gsap.to(indicatorRef.current, { opacity: 0, duration: 0.3 });
       }
+
+      // Now listen passively on the page for an upward scroll back to top
+      window.addEventListener('wheel', s.handlePageWheel, { passive: true });
     }
 
-    /* ─── Wheel handler ─── */
+    /* ─── Primary wheel handler: drives frames (active while animation not complete) ─── */
     s.handleWheel = function handleWheel(e) {
-      if (s.isAnimationComplete) return;
       e.preventDefault();
 
       s.accumulatedDelta += e.deltaY;
@@ -128,6 +137,19 @@ export default function HeroSection() {
           Math.min(CONFIG.totalFrames - 1, s.targetFrame + framesToAdvance)
         );
         s.accumulatedDelta -= framesToAdvance * CONFIG.scrollSensitivity * 10;
+      }
+    };
+
+    /* ─── Page-level wheel: re-enters animation when user scrolls back to top ─── */
+    s.handlePageWheel = function handlePageWheel(e) {
+      // Only re-engage if animation was marked complete and user is scrolling UP at the top of the page
+      if (s.isAnimationComplete && e.deltaY < 0 && window.scrollY === 0) {
+        s.isAnimationComplete = false;
+        // Snap target back to last frame so they can scrub backward
+        s.targetFrame = CONFIG.totalFrames - 1;
+        s.currentFrame = CONFIG.totalFrames - 1;
+        updateTitle(false);
+        lockScroll();
       }
     };
 
@@ -184,11 +206,17 @@ export default function HeroSection() {
 
         const frameIndex = Math.round(s.currentFrame);
         drawFrame(frameIndex);
-        updateTextAnimations(frameIndex);
 
+        // Transition: reached last frame for the first time → complete
         if (frameIndex >= CONFIG.totalFrames - 1 && !s.isAnimationComplete) {
           s.isAnimationComplete = true;
           releaseScroll();
+          updateTitle(true);
+        }
+        // Transition: scrolled back before last frame while re-entering → incomplete again
+        else if (frameIndex < CONFIG.totalFrames - 1 && s.isAnimationComplete) {
+          s.isAnimationComplete = false;
+          updateTitle(false);
         }
       }
       s.animFrameId = requestAnimationFrame(animate);
@@ -242,7 +270,7 @@ export default function HeroSection() {
       }
 
       drawFrame(0);
-      updateTextAnimations(0);
+      updateTitle(false);
 
       // Attach event listeners
       window.addEventListener('wheel', s.handleWheel, { passive: false });
@@ -258,6 +286,7 @@ export default function HeroSection() {
     return () => {
       window.removeEventListener('resize', debouncedResize);
       window.removeEventListener('wheel', s.handleWheel);
+      window.removeEventListener('wheel', s.handlePageWheel);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('keydown', handleKeydown);

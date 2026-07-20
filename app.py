@@ -1,12 +1,49 @@
+import os
+from datetime import timedelta
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from database import engine
+from flask_jwt_extended import JWTManager
 from sqlalchemy import text
 
-app = Flask(__name__)
-CORS(app)
+from database import engine
+from extensions import limiter
+from auth import auth_bp
+from auth.models import Base
 
-amenities_main_list = ['Wi-Fi','Washing Machine', 'Security (CCTV/Guard)', 'Personal Washroom', 'Kitchen', 'Mess/Tiffin']
+# ── App factory ──────────────────────────────────────────────────────────────
+app = Flask(__name__)
+
+# ── CORS ─────────────────────────────────────────────────────────────────────
+# supports_credentials=True is required for HttpOnly cookies (refresh token)
+CORS(app, origins=['http://localhost:5173'], supports_credentials=True)
+
+# ── JWT configuration ─────────────────────────────────────────────────────────
+app.config['JWT_SECRET_KEY']              = os.environ.get('JWT_SECRET_KEY', 'dev-secret-change-me')
+app.config['JWT_ACCESS_TOKEN_EXPIRES']    = timedelta(
+    seconds=int(os.environ.get('JWT_ACCESS_TOKEN_EXPIRES', 900))
+)
+app.config['JWT_TOKEN_LOCATION']          = ['headers']   # access token via Authorization header
+app.config['JWT_HEADER_NAME']             = 'Authorization'
+app.config['JWT_HEADER_TYPE']             = 'Bearer'
+app.config['JWT_ERROR_MESSAGE_KEY']       = 'error'
+
+jwt = JWTManager(app)
+
+# ── Rate limiter ──────────────────────────────────────────────────────────────
+limiter.init_app(app)
+
+# ── Blueprints ────────────────────────────────────────────────────────────────
+app.register_blueprint(auth_bp)
+
+# ── Auto-create auth tables (idempotent) ─────────────────────────────────────
+with app.app_context():
+    Base.metadata.create_all(bind=engine)
+
+# ── Existing accommodation data ───────────────────────────────────────────────
+amenities_main_list = ['Wi-Fi', 'Washing Machine', 'Security (CCTV/Guard)',
+                       'Personal Washroom', 'Kitchen', 'Mess/Tiffin']
+
 
 def load_accommodations(filters=None):
     """
@@ -57,9 +94,7 @@ def load_accommodations(filters=None):
         return result_all
 
 
-# ──────────────────────────────────────────────
-# JSON API ENDPOINTS (consumed by React frontend)
-# ──────────────────────────────────────────────
+# ── JSON API ENDPOINTS (consumed by React frontend) ───────────────────────────
 
 @app.route('/api/accommodations', methods=['GET', 'POST'])
 def api_accommodations():

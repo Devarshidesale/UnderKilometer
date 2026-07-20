@@ -6,6 +6,12 @@ import HeroSection from './components/HeroSection';
 import AccommodationFilters from './components/AccommodationFilters';
 import AccommodationDisplay from './components/AccommodationDisplay';
 import AccommodationDetails from './components/AccommodationDetails';
+import ProtectedRoute from './components/ProtectedRoute';
+
+import LoginPage        from './pages/LoginPage';
+import SignupPage       from './pages/SignupPage';
+import ProfilePage      from './pages/ProfilePage';
+import AdminDashboard   from './pages/AdminDashboard';
 
 /**
  * Home page — composes Navbar + Hero + Filters + Accommodation grid.
@@ -44,14 +50,36 @@ function HomePage() {
 
 /**
  * App root — defines client-side routes.
- *   /             → HomePage
- *   /details/:id  → AccommodationDetails (has its own sidebar nav)
+ *   /             → HomePage             (public)
+ *   /details/:id  → AccommodationDetails (public)
+ *   /login        → LoginPage            (public, redirects if already logged in)
+ *   /signup       → SignupPage           (public)
+ *   /profile      → ProfilePage          (requires auth)
+ *   /admin        → AdminDashboard       (requires admin role)
  */
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/"           element={<HomePage />} />
       <Route path="/details/:id" element={<AccommodationDetails />} />
+      <Route path="/login"      element={<LoginPage />} />
+      <Route path="/signup"     element={<SignupPage />} />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute adminOnly>
+            <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }
